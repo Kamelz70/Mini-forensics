@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#regular expression to check with if inputs are numbers
-#starts with + or - and then any number of digits
-re='^[+|-]*[0-9]+$'
-
-
 #loop untill a valid choice is input
 while [ 1 ]; do
 echo ""
@@ -23,12 +18,14 @@ case $choice in
   1)
     echo "Enter A File name or directory :"
     read file
+    #list inode command for file
     ls -i $file
     continue
     ;;
   2)
     echo "Enter inode number"
     read inodeNum
+    #find inode command on the number
     find -inum $inodeNum
     continue
   ;;
@@ -42,9 +39,11 @@ case $choice in
     echo "Enter desired byte size for image"
     read byteSize
     echo ""
+    #command which copies the source to a hashed destination with md5 to check with
     dcfldd if=$srcpath of=$dstpath hash=md5 bs=$byteSize
     echo ""
-    echo "Hashes for both source and result image:"
+    echo "Hashes for both source and result image: (have to be identical)"
+    #md5 check on both files
     md5sum $srcpath
     md5sum $dstpath
     continue
@@ -52,11 +51,13 @@ case $choice in
   4)
     echo ""
     echo "Available network devices to choose from:"
+    #command which lists network devices available
     sudo tcpdump -D 
     echo ""
     echo "Enter a device to capture packets"
     echo "Once started press ctrl+c to stop capturing"
     read interface
+    #command which starts capturing packets from device of choice
     sudo tcpdump --interface  $interface
     
     continue
@@ -66,18 +67,20 @@ case $choice in
     echo ""
     echo "enter path to file"
     read file
+    #command which reds .pcap file and list packet info
     tcpdump -r $file 
     continue
   ;;
-  6)exit
+  6)
+  #exit program in case of input 5
+  exit
   ;;
   *)
-  #redo the loop if choice incorrect
+  #redo the loop if choice is incorrect
   echo ""
   echo "invalid choice"
   continue
   ;;
 esac
-#break on correct choice
 break
 done
