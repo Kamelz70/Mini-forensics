@@ -12,3 +12,6 @@ Enter A Choice :
 6. 6. exit
 
 Upon choosing an optpion, the program requests its' required inputs to work
+
+to run type in linux command line: 
+bash mini-forensics.sh
